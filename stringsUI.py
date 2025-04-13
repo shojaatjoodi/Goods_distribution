@@ -57,3 +57,33 @@ json_per_messages = SimpleNamespace(
     INVALID_QUANTITY_WARNING="مقدار باید بیشتر از 0 باشد.",
     INVALID_INPUT_ERROR="ورودی خود را بررسی کنید:\n"
 )
+
+# Turkish Messages
+json_turkish_messages = SimpleNamespace(
+    # General UI Texts
+    APP_TITLE="Temel İhtiyaç Malları Dağıtımı",
+    WELCOME_MESSAGE="Dağıtım Sistemine Hoş Geldiniz",
+    INSTRUCTION_MESSAGE="Lütfen aşağıdaki menüden bir seçenek seçin:",
+    EXIT_CONFIRMATION_TITLE="Çıkış Onayı",
+    EXIT_CONFIRMATION_MESSAGE="Uygulamadan çıkmak istediğinizden emin misiniz?",
+
+    # Buttons
+    MANAGE_CITIZENS_BUTTON="Vatandaşları Yönet",
+    MANAGE_GOODS_BUTTON="Malları ve Teslimatları Yönet",
+    DISTRIBUTE_GOODS_BUTTON="Malları Dağıt",
+    VIEW_REPORTS_BUTTON="Raporları Görüntüle",
+    EXIT_BUTTON="Çıkış",
+    EXPORT_TO_EXCEL_BUTTON="Excel'e Aktar",
+    SUBMIT_BUTTON="Dağıt",
+
+    # Labels
+    CITIZEN_NAME_LABEL="Vatandaş Adı:",
+    GOOD_LABEL="Mal:",
+    QUANTITY_RECEIVED_LABEL="Alınan Miktar:",
+    DELIVERY_DATE_LABEL="Teslim Tarihi:",
+    COMPANY_LABEL="Şirket:",
+    DISTRIBUTION_HISTORY_LABEL="Dağıtım Geçmişi:",
+    INVALID_QUANTITY_WARNING="Miktar 0'dan büyük olmalıdır.",
+    INVALID_INPUT_ERROR="Girdinizi kontrol edin:\n"
+)
+        

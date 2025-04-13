@@ -35,13 +35,14 @@ atexit.register(close_database_connection, db_connection)
 #     exit(1) # Exit the program if the connection fails
 
 def main():
-    language = "english"  # Set the default language to English
+    language = "turkish"  # Set the default language to English
     ui_language = json_en_messages
     if language == "persian":
         ui_language = json_per_messages
     if language == "english":
         ui_language = json_en_messages
-            
+    if language == "turkish":
+        ui_language = json_turkish_messages        
     # Check if the database connection is established 
     if db_connection is None or not db_connection.is_connected():
         messagebox.showerror("Database Connection Error", "Failed to connect to the database.")
