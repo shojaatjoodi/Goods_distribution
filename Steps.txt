@@ -1,0 +1,232 @@
+Step-by-Step Plan for Your Software
+🔧 Tech Stack
+1. Backend/Logic: Python
+2. Database: MySQL
+3. GUI: Tkinter
+
+goods_distribution/
+│
+├── main.py              # Entry point
+├── db.py                # Database connection
+├── citizens.py          # Add/search citizens
+├── goods.py             # Goods and deliveries
+├── distribution.py      # Distribute goods
+└── reports.py           # View summaries
+
+
+
+🧩 Step 1: Set Up Your Environment
+0. create env
+1. Install Requirements
+pip install mysql-connector-python
+
+2. Set Up Your MySQL Database
+Use the schema I mentioned earlier (if you want I can give you the full SQL script again).
+
+🖼️ Step 2: Basic GUI with Tkinter
+Let’s begin by creating a simple main window where you can:
+Add citizens
+Add goods
+Record delivery
+Distribute goods
+View reports
+
+
+🚀 Let's Start:
+Step 1: db.py
+Step 2: Create main.py (Initial Window)
+Step 3. build citizens.py: Add a citizen, View list of citizens
+Step4. goods.py
+Step5. distribution.py 
+Step6. reports.py.
+
+
+
+############### 🚀 Let's Start: Coding ###############
+
+###############  Step 1: db.py
+
+What We Need to Track
+Relationships:
+Suppliers → provide goods to → Companies
+Companies → deliver goods to → Citizens
+Every delivery should trace back to a supplier, company, and the good.
+Every distribution to a citizen should indicate which company performed the distribution (optional but very useful).
+Suppliers ─┬──> Deliveries <──┬── Companies
+           │                 │
+           └──> Goods        └──> Distributions <── Citizens
+
+What happens when you run it all at once:
+1. MySQL will sequentially execute each command:
+First drops the database if it exists:
+Creates a new database
+Switches to that database
+Creates all tables one by one
+Inserts the initial goods data
+
+2. All commands either succeed together or fail together (if you use transactions)
+
+
+###############  Step 2: Create main.py (Initial Window)
+# main.py
+# we will considder this as a main module. 
+# we will run all the code in the main.py file
+# we will connect all the functions and modules in the main.py file
+# we will consider the whole tables inside distribution_system.sql with other functions inside other modules and their relations
+## I need to apply all the changes to the main.py file and run it to test the whole system 
+
+
+############### Step 3. build citizens.py:
+Awesome! Let’s build the full implementation of citizens.py, which will include:
+
+✅ Features:
+Add a new citizen
+View the list of citizens
+Optional: Delete a citizen
+
+
+✅ How to Use
+Add this file as citizens.py in your project folder.
+Run the main app using main.py.
+Click "Manage Citizens" to:
+Add new citizen
+View citizen list
+
+Extra feature:
+Search/filter by name/national ID?
+Updated citizens.py with Search/Filter Functionality
+We'll add:
+A search bar (Entry widget)
+A dropdown to choose whether to filter by Name or National ID
+Automatic list update as you type
+
+
+
+###############  Step4. goods.py
+✅ What goods.py Should Do
+1.View Goods List
+2.Add New Deliveries
+Select Good
+Select Supplier
+Select Company
+Quantity & Date
+
+3. Automatically increase stock of a good when a delivery is made
+
+4. Maintain relations with:
+Goods
+Suppliers
+Companies
+Deliveries
+
+
+🧩 Database Relations (Handled Here)
+- Deliveries references:
+good_id → Goods
+supplier_id → Suppliers
+company_id → Companies
+
+- Stock is updated in the Goods table upon delivery
+
+Extra feature:
+✅ Updated goods.py with Delivery History Section:
+Append this to the end of open_goods_window() (after the delivery form)
+
+Great choice! Let’s add a Delivery History View to your goods.py module so you can:
+See all deliveries ever made
+Track which supplier and company provided the goods
+See the quantity and date of delivery
+
+
+###############  Step5. distribution.py 
+
+Distribution module (goods → citizens) for tracking what each citizen received 
+
+Awesome! Let’s now build the full Distribution Module to track which citizens received which goods, from which company, and when.
+
+🧪What This Module Lets You Do:
+Distribute goods to citizens (with checks on stock)
+Automatically reduce inventory stock
+Track all distributions with full history
+
+What the Distribution Module Will Do:
+✅ Allow you to:
+Select a citizen
+Select a good
+Select the company that distributed it
+Enter quantity given
+Automatically reduce the stock
+View a full distribution history
+
+🧩 Connected Tables Recap
+Distributions (joins):
+citizens → goods → companies
+Automatically decreases stock in the Goods table
+
+🧩 Related Tables Recap:
+Distributions: 
+citizen_id → Citizens
+good_id → Goods
+company_id → Companies 
+
+Let's implement the requested features:
+1. Export History to Excel
+We'll use the openpyxl library to export the distribution history to an Excel file. This allows for easy sharing or archiving.
+
+2. Show Per-Citizen History View
+To show a history of goods distributed to a specific citizen, we need to add a selection field where the user can choose a citizen, and the table will then display only that citizen's distribution history.
+Modify the open_distribution_window() to include this feature:
+
+###############  Step6. reports.py.  
+Generate Reports;
+Example: Show total goods distributed per item.
+To implement the reports.py module, we can create a function that generates reports based on specific queries. One of the reports we want is to show the total goods distributed per item.
+1. Setting Up the reports.py Module
+This module will include functions that generate reports by querying the database. You can extend this module to include more types of reports as needed.
+Explanation of Code:
+Database Connection: The connect_db() function establishes a connection to the SQLite database. You can change this to your desired database, such as MySQL or PostgreSQL, if needed.
+
+Report Functions:
+
+total_goods_per_item_report(): This function generates a report that shows the total quantity of each good distributed.
+
+total_goods_per_company_report(): This function generates a report showing the total quantity of goods distributed by each company.
+
+total_goods_per_citizen_report(): This function generates a report showing the total quantity of goods distributed to each citizen.
+
+Each report uses a SQL SELECT query to fetch relevant data and displays it in a Treeview widget, which is part of the Tkinter GUI.
+Main Report Window (open_reports_window()): The main window allows the user to choose which report to generate. When the user clicks on a button, the corresponding report function is called, and the data is displayed in a new window.
+
+Export to Excel (export_to_excel):
+def export_to_excel(data, columns, filename):
+This function takes the data (rows from the database), columns (column names), and a filename (name of the Excel file) as arguments.
+It uses pandas to create a DataFrame from the data and saves it to an Excel file using df.to_excel(). The openpyxl engine is used for writing to the Excel file.
+
+
+#############
+# main.py
+# we will considder this as a main module. 
+# we will run all the code in the main.py file
+# we will connect all the functions and modules in the main.py file
+# we will consider the whole tables inside distribution_system.sql with other functions inside other modules and their relations
+## I need to apply all the changes to the main.py file and run it to test the whole system 
+
+
+
+###################### Run main.py   ###################
+
+✅ 1. Run main.py to start your application
+Make sure:
+
+You have Python installed.
+You have all the required packages installed: mysql-connector-python, tkinter, openpyxl, or pandas (if you're exporting Excel reports).
+
+💻 How to run it:
+Open your terminal or command prompt.
+Navigate to the directory containing your main.py file.
+Run this: bash
+python main.py
+This will launch your full GUI application window.
+
+
+
