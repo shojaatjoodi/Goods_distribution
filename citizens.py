@@ -1,10 +1,9 @@
-# citizens.py
+# This module handles the citizen management functionality of the application.  
 
 import tkinter as tk
 from tkinter import messagebox, ttk
 # Import the database connection functions from db.py
-from db import connect_db # Assuming you have a db.py file with the connect_db function defined
-
+from db import connect_db 
 def add_citizen(name, national_id, address, phone):
     try:
         conn = connect_db()
@@ -68,23 +67,16 @@ def open_citizen_window():
     address_entry.grid(row=0, column=3, padx=5)
     phone_entry.grid(row=1, column=3, padx=5)
 
-    # # Label for the name entry field
-    # tk.Label(frame, text="Full Name").grid(row=0, column=0, padx=5, pady=5) # Position the label in the grid 
-    # name_entry = tk.Entry(frame) # Entry field for the name
-    # name_entry.grid(row=0, column=1, padx=5) # Position the name entry field in the grid 
 
 
-
-    def on_add(): # This function is called when the "Add Citizen" button is clicked
-        # Get the values from the input fields
+    def on_add(): 
         name = name_entry.get() 
-        nid = id_entry.get() # Get the National ID, must be 10 digit number , so check if it is 10 digit number
-        # Check if the National ID is 10 digit number
+        nid = id_entry.get() 
         if len(nid) != 10 or not nid.isdigit():
             messagebox.showwarning("Input Error", "National ID must be a 10 digit number.")
             return
         address = address_entry.get() 
-        phone = phone_entry.get() # Get the phone number, must be 10 digit number , so check if it is 10 digit number
+        phone = phone_entry.get() 
         # Check if the phone number is 10 digit number
         if len(phone) != 10 or not phone.isdigit():
             messagebox.showwarning("Input Error", "Phone number must be a 10 digit number, without + sign.")
@@ -149,8 +141,4 @@ def open_citizen_window():
 
     search_entry.bind("<KeyRelease>", on_search)
 
-    refresh_citizen_list()
-
-
-# we will considder this as a module and not run it directly
-# we will run all the code in the main.py file 
+    refresh_citizen_list() 

@@ -1,12 +1,12 @@
+# This module is for managing goods and deliveries in a warehouse management system.
 
-
-# goods.py
+# pip install xlsxwriter
 
 import tkinter as tk
 from tkinter import ttk, messagebox
-import xlsxwriter # pip install xlsxwriter
+import xlsxwriter 
 # Import the database connection functions from db.py
-from db import connect_db # Assuming you have a db.py file with the connect_db function defined
+from db import connect_db 
 
 def fetch_goods():
     conn = connect_db()
@@ -53,23 +53,6 @@ def add_delivery(good_id, supplier_id, company_id, quantity):
         messagebox.showinfo("Success", "Delivery recorded and stock updated.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to add delivery:\n{e}")
-
-
-# def fetch_delivery_history():
-#     conn = connect_db()
-#     cursor = conn.cursor()
-#     query = """
-#         SELECT d.delivery_id, g.name, s.name, c.name, d.quantity_received, d.delivery_date
-#         FROM Deliveries d
-#         JOIN Goods g ON d.good_id = g.good_id
-#         JOIN Suppliers s ON d.supplier_id = s.supplier_id
-#         JOIN Companies c ON d.company_id = c.company_id
-#         ORDER BY d.delivery_date DESC
-#     """
-#     cursor.execute(query)
-#     rows = cursor.fetchall()
-#     conn.close()
-#     return rows
 
 
 
@@ -149,12 +132,8 @@ def open_goods_window():
         except Exception as e:
             messagebox.showerror("Error", f"Check your input:\n{e}")
 
-    tk.Button(delivery_frame, text="Add Delivery", command=submit_delivery).grid(row=4, column=1, pady=15)
-
-    # tk.Button(delivery_frame, text="Refresh Goods", command=refresh_goods).grid(row=4, column=0, pady=10)
-    # refresh_goods()
-
-
+    tk.Button(delivery_frame, text="Add Delivery", command=submit_delivery).grid(row=4, column=1, pady=15)  
+    
     # --- Delivery History ---
     history_frame = tk.LabelFrame(window, text="Delivery History", padx=10, pady=10)
     history_frame.pack(fill="both", expand=True, padx=10, pady=5)
@@ -183,30 +162,7 @@ def open_goods_window():
         rows = cursor.fetchall()
         conn.close()
         return rows
-    
-    # This function fetches the delivery history from the database and populates the treeview
-    # It is called when the window is opened and after a new delivery is added
-    # It will be called when the button is clicked
 
-    # now filter the delivery history by date, company, and good
-    # def filter_delivery_history(start_date, end_date, company_id, good_id):
-    #     conn = connect_db()
-    #     cursor = conn.cursor()
-    #     query = """
-    #         SELECT d.delivery_id, g.name, s.name, c.name, d.quantity_received, d.delivery_date
-    #         FROM Deliveries d
-    #         JOIN Goods g ON d.good_id = g.good_id
-    #         JOIN Suppliers s ON d.supplier_id = s.supplier_id
-    #         JOIN Companies c ON d.company_id = c.company_id
-    #         WHERE d.delivery_date BETWEEN %s AND %s
-    #         AND d.company_id = %s
-    #         AND d.good_id = %s
-    #         ORDER BY d.delivery_date DESC
-    #     """
-    #     cursor.execute(query, (start_date, end_date, company_id, good_id))
-    #     rows = cursor.fetchall()
-    #     conn.close()
-    #     return rows
 
     # showing just specific company delivery history
     def show_per_company_history(company_id):
@@ -266,10 +222,7 @@ def open_goods_window():
     tk.Button(delivery_frame, text="Show History Per Good", command=show_history_per_good).grid(row=5, column=0, pady=10)
     # Adding a button to show delivery history per company
     tk.Button(delivery_frame, text="Show History Per Company", command=show_history_per_company).grid(row=5, column=1, pady=10)
-
-    # Adding a button to show delivery history per date
-    # tk.Button(delivery_frame, text="Show History Per Date", command=show_history_per_date).grid(row=5, column=2, pady=10)
-
+    
 
     # Adding a function to store the delivery history in a excel file
     def export_delivery_history_to_excel():
@@ -298,10 +251,7 @@ def open_goods_window():
             for col_num, header in enumerate(headers):
                 worksheet.write(0, col_num, header, header_format)
             # Write the data rows
-            for row_num, row in enumerate(rows, 1):
-                # here we can add a code to show data of the delivery history in a better way
-                # for example we can add a code to show the just for the specific company or good, date, etc: let's do it now:
-                # then we can add the data to the excel file, 
+            for row_num, row in enumerate(rows, 1): 
                 for col_num, value in enumerate(row):
                     worksheet.write(row_num, col_num, value)
             workbook.close()
@@ -324,9 +274,4 @@ def open_goods_window():
     refresh_history()
 
         # Adding a button to show all delivery history
-    tk.Button(delivery_frame, text="Show All History", command=refresh_history).grid(row=5, column=2, pady=10)
-
-
-# we will considder this as a module and not run it directly
-# we will run all the code in the main.py file 
-
+    tk.Button(delivery_frame, text="Show All History", command=refresh_history).grid(row=5, column=2, pady=10) 

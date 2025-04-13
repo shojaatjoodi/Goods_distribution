@@ -1,42 +1,12 @@
 # This module handles the connection to the MySQL database for the distribution system.
 # It includes functions to connect to the database, close the connection, and handle errors.
-# 
-# import mysql.connector
 
-# def connect_db(): # Establish a connection to the MySQL database 
-#     try:
-#         connection = mysql.connector.connect(
-#             host="localhost",
-#             user="shoja89",  # Replace with your MySQL username
-#             password="Shj504#@8921",  # Replace with your MySQL password
-#             database="distribution_system"
-#         )
-#         if connection.is_connected():
-#             print("Connected to the database successfully!")
-#         return connection
-    
-#     except mysql.connector.Error as err:
-#         print(f"Error: {err}")
-#         return None
-
-# def close_database_connection(connection):
-#     if connection and connection.is_connected():
-#         connection.close()
-#         print("Database connection closed.")
-
-# This module handles the connection to the MySQL database for the distribution system.
-# It includes functions to connect to the database, close the connection, and handle errors.
-# 
 import mysql.connector
 import os
 import logging
-from mysql.connector import Error
-
-# from dotenv import load_dotenv  
-# # Load environment variables from .env file
-# load_dotenv()
-
+from mysql.connector import Error 
 from dotenv import load_dotenv
+
 # Load environment variables from .env file
 load_dotenv()
 

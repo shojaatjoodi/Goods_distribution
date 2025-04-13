@@ -1,4 +1,4 @@
-# distribution.py
+# This module is responsible for managing the distribution of goods to citizens. 
 # pip install openpyxl
 
 
@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 # Import the database connection functions from db.py
-from db import connect_db # Assuming you have a db.py file with the connect_db function defined
+from db import connect_db 
 
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -35,8 +35,7 @@ def fetch_companies():
     conn.close()
     return rows
 
-# the following function will be used to add a new distribution record to the database
-# and update the stock quantity of the good in the Goods table
+
 def add_distribution(citizen_id, good_id, company_id, quantity, delivery_date):
     conn = connect_db()
     cursor = conn.cursor()
@@ -69,7 +68,6 @@ def add_distribution(citizen_id, good_id, company_id, quantity, delivery_date):
 
 # --- Show Per-Citizen History View ---
 def show_per_citizen_history(citizen_id, tree):
-    # Fetch distribution history for the specific citizen
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute("""
@@ -113,76 +111,42 @@ def open_distribution_window():
     export_button.grid(row=0, column=0, padx=10, pady=10) # Add the export button to the grid
 
 
-
     
     # --- Add Ditribution ---
-    # This section is for adding a new Ditribution record to the database 
-    # It includes a form for entering the citizen's name, good, quantity received, delivery date, and company
-        # Create a frame for the form:
+   
+    # Create a frame for the form:
     delivery_frame = tk.LabelFrame(window, text="Record New Ditribution to citizen", padx=10, pady=10)
     delivery_frame.grid(row=0, column=0, columnspan=2, padx=10, pady=5, sticky="nsew")  # Use grid instead of pack
 
     # bottom for the form 
     tk.Label(delivery_frame, text="Citizen Name:").grid(row=0, column=0, padx=5, pady=5)
-    # tk.Label(delivery_frame, text="Citizen ID:").grid(row=0, column=1, padx=5, pady=5) # this not implemented in database yet
-    tk.Label(delivery_frame, text="Good:").grid(row=1, column=0, padx=5, pady=5)
-    tk.Label(delivery_frame, text="Quantity Received:").grid(row=2, column=0, padx=5, pady=5)
-    # tk.Label(delivery_frame, text="Scale: Kg").grid(row=3, column=1, padx=5, pady=5) # this not implemented in database yet
-    tk.Label(delivery_frame, text="Delivery Date:").grid(row=3, column=0, padx=5, pady=5) 
-    tk.Label(delivery_frame, text="Company:").grid(row=4, column=0, padx=5, pady=5)
-    # tk.Label(delivery_frame, text="Delivery ID:").grid(row=6, column=0, padx=5, pady=5) # this not implemented in database yet
+    tk.Label(delivery_frame, text="Good:").grid(row=1, column=0, padx=5, pady=5) 
+    tk.Label(delivery_frame, text="Quantity Received:").grid(row=2, column=0, padx=5, pady=5) 
+    tk.Label(delivery_frame, text="Delivery Date:").grid(row=3, column=0, padx=5, pady=5)  
+    tk.Label(delivery_frame, text="Company:").grid(row=4, column=0, padx=5, pady=5) 
 
-    # # Create comboboxes for citizen, good, and company selection 
-    # quantity_entry = tk.Entry(form_frame) # Entry for quantity given
-    # quantity_entry.grid(row=3, column=1, pady=5) # Add the quantity entry to the grid
-
-    good_var = tk.StringVar()
+    good_var = tk.StringVar() 
     citizen_var = tk.StringVar()
     company_var = tk.StringVar()
     quantity_var = tk.StringVar() 
-    delivery_date_var = tk.StringVar() # Assuming you have a date picker or entry for the delivery date    
-
-
-    # quantity_var.insert(0, "Enter Quantity") # Set default text to prompt user
-    # quantity_var.bind("<FocusIn>", lambda e: quantity_entry.delete(0, 'end')) # Clear default text on focus
+    delivery_date_var = tk.StringVar()  
 
     # Map citizens to their IDs for display 
     goods_map = {f"{g[1]} (Stock: {g[2]})": g[0] for g in goods}
     citizen_map = {f"{c[1]} (ID: {c[2]})": c[0] for c in citizens} # Map citizens to their IDs for display
-    company_map = {c[1]: c[0] for c in companies} # Map companies to their IDs for display
+    company_map = {c[1]: c[0] for c in companies} # Map companies to their IDs for display 
 
-    # citizen_menu.grid(row=0, column=1, pady=5, sticky="w")
-    # good_menu.grid(row=1, column=1, pady=5, sticky="w")
-    # company_menu.grid(row=5, column=1, pady=5, sticky="w")
-    # quantity_entry.grid(row=2, column=1, pady=5, sticky="w")
-    # citizen_menu.set("Select Citizen") # Set default text to prompt user
-    # good_menu.set("Select Good") # Set default text to prompt user
-    # company_menu.set("Select Company") # Set default text to prompt user
-    # quantity_entry.insert(0, "Enter Quantity") # Set default text to prompt user
-    # citizen_menu.bind("<FocusIn>", lambda e: citizen_menu.delete(0, 'end')) # Clear default text on focus
-    # good_menu.bind("<FocusIn>", lambda e: good_menu.delete(0, 'end')) # Clear default text on focus
-    # company_menu.bind("<FocusIn>", lambda e: company_menu.delete(0, 'end')) # Clear default text on focus
-    # quantity_entry.bind("<FocusIn>", lambda e: quantity_entry.delete(0, 'end')) # Clear default text on focus
-    # citizen_menu.bind("<FocusOut>", lambda e: citizen_menu.insert(0, "Select Citizen") if not citizen_var.get() else None) # Reset default text on focus out
-    # good_menu.bind("<FocusOut>", lambda e: good_menu.insert(0, "Select Good") if not good_var.get() else None) # Reset default text on focus out
-    # company_menu.bind("<FocusOut>", lambda e: company_menu.insert(0, "Select Company") if not company_var.get() else None) # Reset default text on focus out
-    # quantity_entry.bind("<FocusOut>", lambda e: quantity_entry.insert(0, "Enter Quantity") if not quantity_entry.get() else None) # Reset default text on focus out 
-
-    # Create comboboxes for citizen, good, and company selection
+    # Create comboboxes for citizen, good, and company selection 
     goods_menu = ttk.Combobox(delivery_frame, textvariable=good_var, values=list(goods_map.keys()), width=40)
     citize_menu = ttk.Combobox(delivery_frame, textvariable=citizen_var, values=list(citizen_map.keys()), width=40)
     company_menu = ttk.Combobox(delivery_frame, textvariable=company_var, values=list(company_map.keys()), width=40)
     quantity_entry = tk.Entry(delivery_frame, textvariable=quantity_var, width=40) # Entry for quantity received 
     delivery_date_entry = tk.Entry(delivery_frame, textvariable=delivery_date_var, width=40) # Assuming you have a date picker or entry for the delivery date
 
-    
-    # these are the default values for the comboboxes
-    # goods_menu.set("Select Good") # Set default text to prompt user
-    # the following lines of grid function will set the position of the widgets in the grid 
-    citize_menu.grid(row=0, column=1, pady=5, sticky="w")
+    citize_menu.grid(row=0, column=1, pady=5, sticky="w") 
     goods_menu.grid(row=1, column=1, pady=5, sticky="w")
     quantity_entry.grid(row=2, column=1, pady=5, sticky="w")
-    delivery_date_entry.grid(row=3, column=1, pady=5, sticky="w") # Add the delivery date entry to the grid
+    delivery_date_entry.grid(row=3, column=1, pady=5, sticky="w")
     company_menu.grid(row=4, column=1, pady=5, sticky="w")    
 
     #...........................
@@ -193,7 +157,7 @@ def open_distribution_window():
             good_id = goods_map[good_var.get()]
             company_id = company_map[company_var.get()]
             quantity = int(quantity_entry.get())
-            delivery_date = delivery_date_entry.get()  # Assuming you have a date picker or entry for the delivery date
+            delivery_date = delivery_date_entry.get() 
 
             if quantity <= 0:
                 messagebox.showwarning("Invalid Quantity", "Quantity must be greater than 0.")
@@ -206,59 +170,32 @@ def open_distribution_window():
         except Exception as e:
             messagebox.showerror("Error", f"Check your input:\n{e}")
 
-    # # tk.Button(form_frame, text="Distribute", command=submit_distribution).grid(row=4, column=1, pady=10)
     tk.Button(delivery_frame, text="Submit Distribute", command=submit_distribution).grid(row=5, column=1, pady=20) # Add the distribute button to the grid
-    # # tk.Button(form_frame, text="Clear", command=clear_form).grid(row=4, column=2, pady=10) # Add the clear button to the grid
-
-    # # --- Citizen Selection ---
-    # citizen_label = tk.Label(window, text="Select Citizen to View History:")
-    # citizen_label.pack(pady=5)
-
-    # citizens = fetch_citizens()
-    # citizen_map = {f"{c[1]} (ID: {c[2]})": c[0] for c in citizens}
-    # citizen_var = tk.StringVar()
-
-    # citizen_menu = ttk.Combobox(window, textvariable=citizen_var, values=list(citizen_map.keys()), width=50)
-    # citizen_menu.pack(pady=5)
-    # citizen_menu.set("Select Citizen") # Set default text to prompt user
-
-    # the following function will be called when the button is clicked
+    
     # It will fetch the citizen ID from the selected citizen name and call the show_per_citizen_history function
     def show_history_citizen():
         citizen_id = citizen_map[citizen_var.get()]
-        show_per_citizen_history(citizen_id, tree)  # Pass 'tree' here to update the treeview
-        # # Clear the selection after showing history
-        # citizen_var.set("")  # Clear the selection in the combobox 
-    # .......................
-
+        show_per_citizen_history(citizen_id, tree)
     
-    # citizen_button.pack(pady=10)
+    # .......................
 
     # --- Distribution History Table ---
     history_frame = tk.LabelFrame(window, text="Distribution History:", padx=10, pady=10)
-    # history_frame.pack(fill="both", expand=True, padx=10, pady=5)
     history_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=5, sticky="nsew")
 
     columns = ("ID", "Citizen", "Good", "Company", "Quantity", "Date")
-    tree = ttk.Treeview(history_frame, columns=columns, show="headings")
+    tree = ttk.Treeview(history_frame, columns=columns, show="headings") 
 
-    # for col in columns:
-    #     tree.heading(col, text=col)
-    #     tree.column(col, width=130)
     for col in columns:
         tree.heading(col, text=col)
         tree.column(col, anchor="center", width=130)
-
-    # tree.pack(fill="both", expand=True)
-
+ 
     tree.grid(row=0, column=0, sticky="nsew")
     # Allow resizing
     history_frame.grid_rowconfigure(0, weight=1)
     history_frame.grid_columnconfigure(0, weight=1)
     window.grid_rowconfigure(2, weight=1)
-    window.grid_columnconfigure(0, weight=1)
-
-    # tree.bind("<Double-1>", lambda e: messagebox.showinfo("Info", "Double-click to view details."))
+    window.grid_columnconfigure(0, weight=1) 
     
     # This function fetches the distribution history from the database and populates the treeview
     def fetch_distributions(): 
@@ -283,14 +220,9 @@ def open_distribution_window():
         for dist in fetch_distributions():
             tree.insert("", "end", values=dist)
 
-    refresh_distributions() # Call the function to populate the treeview with distribution history
+    refresh_distributions()
 
-    # # Show the distribution history when the window is opened
-    # refresh_distributions() # Call the function to populate the treeview with distribution history
-
-    # --- Distribution History Table ---
-    # history_frame = tk.LabelFrame(window, text="Distribution History:", padx=10, pady=10)
-    # history_frame.pack(fill="both", expand=True, padx=10, pady=5)
+    # --- Distribution History Table --- 
     tk.Button(delivery_frame, text="Show History of Citizen:", command=show_history_citizen).grid(row=6, column=1, pady=10)
     tk.Button(delivery_frame, text="Show All History", command=refresh_distributions).grid(row=6, column=3, pady=10)
 
@@ -300,15 +232,12 @@ def open_distribution_window():
 
 
 # --- Function to export the history to Excel ---
-
 def export_to_excel():
     try:
         # Create a new workbook and sheet
         wb = openpyxl.Workbook()
         sheet = wb.active
         sheet.title = "Distribution History"
-
-        # Define the columns
         columns = ("ID", "Citizen", "Good", "Company", "Quantity", "Date")
         
         # Add headers to the sheet
@@ -343,8 +272,3 @@ def export_to_excel():
         messagebox.showinfo("Success", f"History exported to {file_name}")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to export history:\n{e}")
-
-
-# # Uncomment the following line to run the distribution window directly for testing
-# we will considder this as a module and not run it directly
-# we will run all in the main.py file

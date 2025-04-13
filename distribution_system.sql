@@ -77,8 +77,10 @@ INSERT INTO Goods (name, stock_quantity) VALUES
 
 
 
--- we will considder this as a module and not run it directly
--- we will consider these tables and other functions inside other modules and their relations
+
+
+
+--- ............... adding some fake data for testing purposes ............... 
 
 -- 9. Prepopulate Suppliers table
 INSERT INTO Suppliers (name, contact_info) VALUES
@@ -145,53 +147,6 @@ INSERT INTO Distributions (citizen_id, good_id, company_id, quantity_given) VALU
 (4, 4, 4, 5),
 (5, 5, 5, 30);
 
-
-
--- 14. Create a view to show the current stock of goods
-CREATE VIEW CurrentStock AS
-SELECT g.good_id, g.name, g.stock_quantity
-FROM Goods g
-LEFT JOIN Deliveries d ON g.good_id = d.good_id
-LEFT JOIN Distributions ds ON g.good_id = ds.good_id
-GROUP BY g.good_id, g.name, g.stock_quantity;
--- 15. Create a view to show the distribution history of goods
-CREATE VIEW DistributionHistory AS
-SELECT d.distribution_id, c.name AS citizen_name, g.name AS good_name, d.quantity_given, d.distribution_date
-FROM Distributions d
-JOIN Citizens c ON d.citizen_id = c.citizen_id
-JOIN Goods g ON d.good_id = g.good_id
-ORDER BY d.distribution_date DESC;
--- 16. Create a view to show the delivery history of goods
-CREATE VIEW DeliveryHistory AS
-SELECT d.delivery_id, g.name AS good_name, s.name AS supplier_name, c.name AS company_name, d.quantity_received, d.delivery_date
-FROM Deliveries d
-JOIN Goods g ON d.good_id = g.good_id
-JOIN Suppliers s ON d.supplier_id = s.supplier_id
-JOIN Companies c ON d.company_id = c.company_id
-ORDER BY d.delivery_date DESC;
--- 17. Create a view to show the eligible citizens
-CREATE VIEW EligibleCitizens AS
-SELECT citizen_id, name, national_id, address, phone
-FROM Citizens
-WHERE eligible = TRUE;
--- 18. Create a view to show the ineligible citizens
-CREATE VIEW IneligibleCitizens AS
-SELECT citizen_id, name, national_id, address, phone
-FROM Citizens
-WHERE eligible = FALSE;
--- 19. Create a view to show the total quantity of goods distributed to each citizen
-CREATE VIEW TotalGoodsDistributed AS
-SELECT c.citizen_id, c.name, SUM(d.quantity_given) AS total_quantity
-FROM Distributions d
-JOIN Citizens c ON d.citizen_id = c.citizen_id
-GROUP BY c.citizen_id, c.name;
-
--- 20. Create a view to show the total quantity of goods received from each supplier
-CREATE VIEW TotalGoodsReceived AS
-SELECT s.supplier_id, s.name AS supplier_name, SUM(d.quantity_received) AS total_quantity
-FROM Deliveries d
-JOIN Suppliers s ON d.supplier_id = s.supplier_id
-GROUP BY s.supplier_id, s.name;
 
 
 

@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 # Import the database connection functions from db.py
-from db import connect_db # Assuming you have a db.py file with the connect_db function defined
+from db import connect_db 
 
 
 # --- Export to Excel Function ---
@@ -169,30 +169,4 @@ def open_reports_window():
     total_goods_per_company_button.pack(pady=10)
 
     total_goods_per_citizen_button = tk.Button(window, text="Total Goods per Citizen", command=total_goods_per_citizen_report)
-    total_goods_per_citizen_button.pack(pady=10)
-
-
-
-# we will considder this as a module and not run it directly
-# we will run the main.py file to test the reports module 
-
-# Example usage: open the reports window
-# open_reports_window()
-
-# Note: This code assumes that the database and tables are already set up correctly.
-# Make sure to replace the database connection details with your actual database configuration.
-
-# Also, ensure that the necessary libraries (tkinter, mysql.connector) are installed in your Python environment.
-# You can install mysql-connector-python using pip:
-# pip install mysql-connector-python
-# If you're using PostgreSQL, you can install psycopg2 using pip:
-# pip install psycopg2
-# If you're using MySQL, you can install mysql-connector-python using pip:
-# pip install mysql-connector-python
-# then change the import statement accordingly.
-#  for MySQL:
-# import mysql.connector
-
-# then change the connection string in connect_db() to match your MySQL database configuration. 
-
-# tkinter is included in the standard library, so you don't need to install it separately. 
+    total_goods_per_citizen_button.pack(pady=10) 

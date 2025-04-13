@@ -1,4 +1,4 @@
-# distribution.py
+# This module handles the distribution of goods to citizens and their history.
 # pip install openpyxl
 
 
@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 # Import the database connection functions from db.py
-from db import connect_db # Assuming you have a db.py file with the connect_db function defined
+from db import connect_db
 
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -159,9 +159,7 @@ def open_distribution_window():
 
     citizen_menu = ttk.Combobox(window, textvariable=citizen_var, values=list(citizen_map.keys()), width=50)
     citizen_menu.pack(pady=5)
-    # citizen_menu.set("Select Citizen") # Set default text to prompt user
-
-    # the following function will be called when the button is clicked
+    
     # It will fetch the citizen ID from the selected citizen name and call the show_per_citizen_history function
     def show_history():
         citizen_id = citizen_map[citizen_var.get()]
@@ -184,7 +182,7 @@ def open_distribution_window():
         tree.column(col, width=130)
 
     tree.pack(fill="both", expand=True)
-    # tree.bind("<Double-1>", lambda e: messagebox.showinfo("Info", "Double-click to view details."))
+    
     
     # This function fetches the distribution history from the database and populates the treeview
     def fetch_distributions(): 
@@ -256,9 +254,4 @@ def export_to_excel():
 
         messagebox.showinfo("Success", f"History exported to {file_name}")
     except Exception as e:
-        messagebox.showerror("Error", f"Failed to export history:\n{e}")
-
-
-# # Uncomment the following line to run the distribution window directly for testing
-# we will considder this as a module and not run it directly
-# we will run all in the main.py file
+        messagebox.showerror("Error", f"Failed to export history:\n{e}") 
